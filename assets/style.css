@@ -1,3 +1,17 @@
 .btn {
 	margin: 10pt;
 }
+
+p {
+	font-size: 14pt;
+}
+
+.gifResults, .gifImage{
+/*	float: left;
+	width: 200pt;*/
+	text-align: center;
+	margin: 5pt;
+	padding: 5pt;
+}
+
+

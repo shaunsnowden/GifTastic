@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 // Create buttons
-	var buttons = ["LOL", "FML", "OhNo", "TeacupPig", "Uhhh", "GameOfThrones", "No"];
+	var buttons = ["LOL", "FML", "OhNo", "ForgetIt", "Uhhh", "GameOfThrones", "No", "Fail"];
 
 	for (var i=0;i<buttons.length;i++){
 	 	var giphyBtn = $("<button>");
@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 				var p = $('<p/>');
 				p.text(results[i].rating);
-				console.log(p);
+				// console.log(p);
 
 				var gifImage = $('<img/>');
 				gifImage.addClass('gifImageResults');
@@ -57,14 +57,72 @@ $(document).ready(function(){
 
 			};
 		});
+	
 	});
 
+	// Submit Button
+		$('#newGifBtn').on('click', function(evt){
+			evt.preventDefault();
+			
+			var newTag = $('#newGifInput').val();
+			var newButton = $("<button>");
+			console.log(newTag);
 
-// Submit Button
-	$('#newGifBtn').on('click', function(evt){
-		evt.preventDefault();
-		console.log("Clicked!");
-		// var newTag = 
+			newButton.text(newTag).attr("giphy-tag", newTag);
+			newButton.addClass("btn btn-primary giphy-button");
+
+
+			$("#button-container").append(newButton);
+
+			// $('#newGifInput').reset();
+			$(".giphy-button").on('click',function(){
+
+		$('#gif-container').empty();
+		
+		var gifTag = $(this).text();
+		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTag + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+		// console.log(queryURL);
+
+		$.ajax({
+			url: queryURL,
+			method: 'GET'
+
+		}) .done(function(response){
+
+			// console.log(response);
+			var results = response.data;
+
+			for (var i = 0; i < results.length; i++) {
+
+				var gifDiv = $('<div/>');
+				gifDiv.addClass("gifResults");
+
+				var p = $('<p/>');
+				p.text(results[i].rating);
+				// console.log(p);
+
+				var gifImage = $('<img/>');
+				gifImage.addClass('gifImageResults');
+				gifImage.attr('src', results[i].images.fixed_height.url);
+				gifImage.attr('data-still', results[i].images.fixed_height.url);
+				gifImage.attr('data-animate', results[i].images.fixed_height.url);
+				// .attr('data-state', 'still');
+				// console.log(gifImage);
+
+
+				gifDiv.append(p);
+				gifDiv.append(gifImage);
+				gifDiv.prependTo($('#gif-container'));
+
+				// console.log(gifImage);
+
+
+			};
+		});
+	
+	});
+
 	});
 
 });
